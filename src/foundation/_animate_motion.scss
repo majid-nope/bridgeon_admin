@@ -1,0 +1,7 @@
+@mixin motion($name, $due, $timing_fun:linear, $delay:0s, $iteration:1, $direction:none) {
+    animation: $name $due $timing_fun $delay $iteration $direction;
+
+    @keyframes #{$name} {
+        @content
+    }
+}

@@ -1,0 +1,43 @@
+@import '../foundation/animate_motion';
+
+
+.main {
+    display: grid;
+    width: 100dvw;
+    height: 100dvh;
+    background: linear-gradient(208deg, #000000, #000000c4);
+    overflow: hidden;
+    grid-template-columns: max-content auto;
+    grid-template-rows: max-content auto;
+    grid-template-areas:
+        "side header"
+        "side main"
+        "side main";
+
+    .header {
+        grid-area: header;
+
+        width: 100%;
+        height: 100%;
+        background-image: linear-gradient(to right, rgba(13, 69, 255, 0.377), rgba(1, 203, 253, 0.555));
+        backdrop-filter: blur(10px);
+
+
+    }
+
+    .side {
+        background-color: aqua;
+        grid-area: side;
+        width: 100%;
+        height: 100%;
+    }
+
+    .section {
+        grid-area: main;
+        width: 100%;
+        height: 100%;
+        background-color: #00000054;
+        backdrop-filter: blur(15px);
+    }
+
+}
