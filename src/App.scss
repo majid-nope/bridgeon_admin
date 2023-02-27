@@ -1,3 +1,16 @@
+@font-face {
+    font-family: 'typo-font';
+    src: url('./assets/font/typo-round.otf');
+}
+
 body {
     margin: 0;
+}
+
+:root{
+    --typo:'typo-font';
+    --lexend: 'Lexend';
+    --dashboardBg:#141518;
+    --sidebarBg:#1b1c21;
+    --sidebarBtnColor:#2e2e34;
 }

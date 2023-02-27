@@ -1,0 +1,58 @@
+.container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+
+
+    .board {
+        width: 100%;
+
+
+        border-radius: 10px / 10px;
+        border-color: rgba(255, 255, 255, 0.096);
+        border-width: .5px;
+        border-style: solid;
+        display: grid;
+        padding: 10px;
+        grid-template-rows: 50px 100%;
+
+        .title {
+            font-family: "Lexend";
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding-left: 10px;
+            font-size: large;
+            width: 100%;
+            height: 100%;
+            color: white;
+            border-bottom: 1px;
+            border-color: white;
+
+
+        }
+
+        .body {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            height: 100%;
+
+            width: 100%;
+
+            .reason {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 10px;
+                font-size: large;
+                color: white;
+                font-family: 'Lexend';
+
+
+
+            }
+        }
+    }
+}
