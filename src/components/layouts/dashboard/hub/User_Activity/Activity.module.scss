@@ -1,21 +1,23 @@
 .container {
     width: 100%;
     height: 100%;
-    display: flex;
+    display: grid;
     gap: 10px;
-    flex-direction: column;
+    grid-template-rows: 1fr 3fr;
+
+
 
 
     .board {
         width: 100%;
 
-
+        height: 100%;
         border-radius: 10px / 10px;
         border-color: rgba(255, 255, 255, 0.096);
         border-width: .5px;
         border-style: solid;
         display: grid;
-        padding: 10px;
+
         grid-template-rows: 50px 100%;
 
         .title {
@@ -37,11 +39,11 @@
         .body {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            height: 100%;
+            height:50%;
 
             width: 100%;
 
-            .reason {
+            .batch {
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -53,6 +55,18 @@
 
 
             }
+
+            .date {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 10px;
+                font-size: large;
+                color: white;
+                font-family: 'Lexend';
+            }
         }
     }
+
+
 }

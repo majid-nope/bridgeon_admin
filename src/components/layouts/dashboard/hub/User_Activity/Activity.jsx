@@ -1,18 +1,54 @@
 import React, { useEffect, useState } from 'react'
 import style from './Activity.module.scss'
-import { Calendar } from '@mantine/dates';
-import { Chip } from '@mantine/core';
+import { DatePicker } from '@mantine/dates';
+import { DataGrid } from '@mui/x-data-grid';
+
+
+
+
+import Checkbox from '@mui/material/Checkbox';
+import { deepOrange } from '@mui/material/colors';
+import DatePick from '../../../../commons/DataGrid/DatePicker';
+import Select from '../../../../commons/Select/Select';
+
+
 const Activity = () => {
     const [field, setField] = useState({})
-    const [seletedDate, selectDate] = useState()
+    const [seletedDate, selectDate] = useState(Date.now())
 
 
 
-    const calenderStyles = {
-        calendarHeaderLevel: { color: "white", '&:hover': { background: "#1e1e1e" } },
-        monthPickerControl: { color: "gray" },
-        yearPickerControl: { color: "gray" }
-    }
+    const columns = [
+        { field: 'id', headerName: 'ID', width: 90 },
+        {
+            field: 'firstName',
+            headerName: 'First name',
+            width: 150,
+            editable: true,
+        },
+        {
+            field: 'lastName',
+            headerName: 'Last name',
+            width: 150,
+            editable: true,
+        },
+        {
+            field: 'age',
+            headerName: 'Age',
+            type: 'number',
+            width: 110,
+            editable: true,
+        },
+        {
+            field: 'fullName',
+            headerName: 'Full name',
+            description: 'This column has a value getter and is not sortable.',
+            sortable: false,
+            width: 160,
+            valueGetter: (params) =>
+                `${params.row.firstName || ''} ${params.row.lastName || ''}`,
+        },
+    ];
     const rows = [
         { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35 },
         { id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42 },
@@ -37,27 +73,20 @@ const Activity = () => {
                         Activity
                     </div>
                     <div className={style.body}>
-                        <div className={style.calender}>
-                            <Calendar styles={() => (calenderStyles)} fullWidth value={seletedDate} onChange={(date) => setField({ ...field, date: date.toLocaleDateString() })} />;
+                        <div className={style.date}>
+                            <DatePick />
                         </div>
-                        <div className={style.reason}>
-                            Reason
-                            <Chip.Group position="center" onChange={(e) => setField({ ...field, reason: e.toLowerCase() })}>
-                                <Chip color="orange" variant='filled' value={"late"}>Late</Chip>
-                                <Chip color="red" variant='filled' value={"absence"}>Absence</Chip>
-                                <Chip color="indigo" variant='filled' value={"excuse"}>Late with excuses</Chip>
-                            </Chip.Group>
+                        <div className={style.batch}>
+                            <Select label={"Choose a batch"} placeholder={"choose"} theme={"dark"} data={[]} />
                         </div>
+
                     </div>
                 </div>
-                <div className={style.board}>
-                    {/* <DataGrid
-                        rows={rows}
-                        columns={columns}
-                        pageSize={5}
-                        rowsPerPageOptions={[5]}
-                        checkboxSelection
-                    /> */}
+                <div className={style.user_data}>
+
+
+
+
                 </div>
             </div>
         </>
