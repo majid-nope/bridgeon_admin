@@ -1,70 +1,53 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import style from './Activity.module.scss'
-import { DatePicker } from '@mantine/dates';
-import { DataGrid } from '@mui/x-data-grid';
 
 
 
 
-import Checkbox from '@mui/material/Checkbox';
-import { deepOrange } from '@mui/material/colors';
+
+
 import DatePick from '../../../../commons/DataGrid/DatePicker';
 import Select from '../../../../commons/Select/Select';
+import Table from '../../../../commons/Table/Table';
+import { Pagination, Skeleton } from '@mantine/core';
+import { useDispatch, useSelector } from 'react-redux';
+import { getUsers } from '../../../../../redux/async/userAsync';
 
 
 const Activity = () => {
-    const [field, setField] = useState({})
-    const [seletedDate, selectDate] = useState(Date.now())
+    // const [field, setField] = useState({})
+    // const [seletedDate, selectDate] = useState(Date.now())
 
+    // const [users]
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        dispatch(getUsers({ page: 0, limit: 4 }))
+    }, [])
+
+    const users = useSelector((state) => state.usersReducer.users)
+    console.log(users);
 
 
     const columns = [
-        { field: 'id', headerName: 'ID', width: 90 },
-        {
-            field: 'firstName',
-            headerName: 'First name',
-            width: 150,
-            editable: true,
-        },
-        {
-            field: 'lastName',
-            headerName: 'Last name',
-            width: 150,
-            editable: true,
-        },
-        {
-            field: 'age',
-            headerName: 'Age',
-            type: 'number',
-            width: 110,
-            editable: true,
-        },
-        {
-            field: 'fullName',
-            headerName: 'Full name',
-            description: 'This column has a value getter and is not sortable.',
-            sortable: false,
-            width: 160,
-            valueGetter: (params) =>
-                `${params.row.firstName || ''} ${params.row.lastName || ''}`,
-        },
+        "name",
+        "batch",
+        "course",
+        "status"
+
     ];
-    const rows = [
-        { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35 },
-        { id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42 },
-        { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45 },
-        { id: 4, lastName: 'Stark', firstName: 'Arya', age: 16 },
-        { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: null },
-        { id: 6, lastName: 'Melisandre', firstName: null, age: 150 },
-        { id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44 },
-        { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36 },
-        { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
-    ];
+    let rows = useMemo(() => {
+        return users.map((el) => ({ ...el, status: ['present', 'absence', 'excused absence'] }))
+    }, [users])
 
 
-    useEffect(() => {
-        console.log(field);
-    }, [field])
+
+
+
+
+
+
+
     return (
         <>
             <div className={style.container}>
@@ -77,16 +60,31 @@ const Activity = () => {
                             <DatePick />
                         </div>
                         <div className={style.batch}>
-                            <Select label={"Choose a batch"} placeholder={"choose"} theme={"dark"} data={[]} />
+                            <Select label={"Choose a batch"} placeholder={"choose"} theme={"dark"} data={["HEllo"]} />
                         </div>
 
                     </div>
                 </div>
                 <div className={style.user_data}>
+                    {users ? <Table elements={rows} titles={columns} theme={"dark"} select={true} /> :
+                        <>
+                            <Skeleton height={8} mt={6} radius="xl" />
+                            <Skeleton height={8} mt={6} radius="xl" />
+                            <Skeleton height={8} mt={6} radius="xl" />
+                        </>}
 
-
-
-
+                    <Pagination
+                        total={10}
+                        onChange={(i) => dispatch(getUsers({ page: i, limit: 5 }))}
+                        position="center"
+                        styles={(theme) => ({
+                            item: {
+                                '&[data-active]': {
+                                    backgroundImage: theme.fn.gradient({ from: 'red', to: 'yellow' }),
+                                },
+                            },
+                        })}
+                    />
                 </div>
             </div>
         </>
