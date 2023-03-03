@@ -3,15 +3,15 @@ import { MantineProvider } from '@mantine/core';
 import { DatePicker } from '@mantine/dates';
 
 
-const DatePick = () => {
+const DatePick = ({ onChange, date }) => {
     return (
         <MantineProvider theme={{ colorScheme: 'dark' }} withGlobalStyles withNormalizeCSS>
             <DatePicker
-                color='white' 
+                color='white'
                 placeholder='please choose date'
                 label="Choose a date"
-                value={null}
-                onChange={(date) => console.log(date)}
+                value={date}
+                onChange={onChange}
             />
         </MantineProvider>
 
