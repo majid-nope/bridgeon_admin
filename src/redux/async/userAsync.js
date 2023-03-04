@@ -13,7 +13,7 @@ export const getUsers = createAsyncThunk(
   }
 );
 
-export const updateAttendance = createAsyncThunk(
+export const attendance = createAsyncThunk(
   "users/attendance",
   async (data) => {
     try {

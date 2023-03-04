@@ -7,6 +7,7 @@ const DatePick = ({ onChange, date }) => {
     return (
         <MantineProvider theme={{ colorScheme: 'dark' }} withGlobalStyles withNormalizeCSS>
             <DatePicker
+                clearable
                 color='white'
                 placeholder='please choose date'
                 label="Choose a date"

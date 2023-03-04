@@ -4,8 +4,8 @@ import Select from '../Select/Select';
 
 const Table = ({ elements, titles, theme, select, onSelect }) => {
 
-    const rows = elements.map((element) => (
-        <tr key={element.name}>
+    const rows = elements.map((element,index) => (
+        <tr key={index}>
             <td>{element.name}</td>
             <td>{element.batch}</td>
             <td>{element.course}</td>
@@ -13,8 +13,8 @@ const Table = ({ elements, titles, theme, select, onSelect }) => {
 
         </tr>
     ));
-    const columns = titles.map(element => (
-        <th>{element}</th>
+    const columns = titles.map((element, index) => (
+        <th key={index}>{element}</th>
     ))
     return (
 

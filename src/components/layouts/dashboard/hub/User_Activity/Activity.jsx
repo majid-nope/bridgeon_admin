@@ -8,14 +8,13 @@ import { Button, Pagination, Skeleton } from "@mantine/core";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getUsers,
-  updateAttendance,
+  attendance as attendanceAction,
 } from "../../../../../redux/async/userAsync";
 
 const Activity = () => {
-  // const [field, setField] = useState({})
-  // const [seletedDate, selectDate] = useState(Date.now())
+
   const [attendance, setAttendance] = useState([]);
-  const [date, setDate] = useState(new Date().toLocaleDateString());
+  const [date, setDate] = useState(null);
 
   const onSelect = (id, value) => {
     const filteredAttend = attendance.filter((el) => {
@@ -27,27 +26,31 @@ const Activity = () => {
     ]);
   };
   const [batch, setBatch] = useState(1);
-  // const [users]
+
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    console.log(attendance, "-----------------------good---");
-  }, [attendance]);
+
 
   useEffect(() => {
     dispatch(getUsers({ page: 0, limit: 5, batch }));
   }, [batch]);
 
   const onSubmit = () => {
-    dispatch(updateAttendance(attendance));
+    dispatch(attendanceAction(attendance));
   };
 
   const onDate = (date) => {
-    setDate(date.toLocaleDateString());
+    if (date) setDate(date.toLocaleDateString());
+    else setDate(date)
+
   };
 
   const users = useSelector((state) => state.usersReducer.users);
   const totalUsers = useSelector((state) => state.usersReducer.total);
+  const status = {
+    user: useSelector((state) => state.usersReducer.status.user),
+    attendance: useSelector((state) => state.usersReducer.status.attendance)
+  }
   console.log(users);
 
   const columns = ["name", "batch", "course", "status"];
@@ -94,7 +97,7 @@ const Activity = () => {
               <Skeleton height={8} mt={6} radius="xl" />
             </>
           )}
-          <Button onClick={onSubmit}>Update</Button>
+          <Button loading={status.attendance==="pending"} onClick={onSubmit}>Update</Button>
 
           <Pagination
             total={totalUsers}
