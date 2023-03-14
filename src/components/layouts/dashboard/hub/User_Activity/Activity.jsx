@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import style from "./Activity.module.scss";
-
+import DangerousIcon from '@mui/icons-material/Dangerous';
 import DatePick from "../../../../commons/DataGrid/DatePicker";
 import Select from "../../../../commons/Select/Select";
 import Table from "../../../../commons/Table/Table";
@@ -10,33 +10,54 @@ import {
   getUsers,
   attendance as attendanceAction,
 } from "../../../../../redux/async/userAsync";
+import { showNotification } from "@mantine/notifications";
+import { clear } from "../../../../../redux/slices/usersSlice";
 
 const Activity = () => {
 
+  const dispatch = useDispatch();
+  const [batch, setBatch] = useState(1);
   const [attendance, setAttendance] = useState([]);
   const [date, setDate] = useState(null);
 
   const onSelect = (id, value) => {
-    const filteredAttend = attendance.filter((el) => {
-      return el.id !== id;
-    });
-    setAttendance([
-      ...filteredAttend,
-      { id, attendance: { date, reason: value } },
-    ]);
-  };
-  const [batch, setBatch] = useState(1);
+    if (date) {
+      const filteredAttend = attendance.filter((el) => {
+        return el.id !== id;
+      });
+      setAttendance([
+        ...filteredAttend,
+        { id, attendance: { date, reason: value } },
+      ]);
+    } else {
+      showNotification({
+        id: "load-data",
+        loading: false,
+        color: 'red',
+        icon: <DangerousIcon />,
+        title: "Oops!",
+        message: "Please select date ",
+        autoClose: true,
+        disallowClose: false,
+      });
 
-  const dispatch = useDispatch();
+    }
+  };
+
 
 
 
   useEffect(() => {
-    dispatch(getUsers({ page: 0, limit: 5, batch }));
+    if (batch !== "0") dispatch(getUsers({ page: 0, limit: 5, batch }));
+    else dispatch(clear())
+
   }, [batch]);
 
   const onSubmit = () => {
-    dispatch(attendanceAction(attendance));
+    // console.log(attendance);
+
+
+    // dispatch(attendanceAction(attendance));
   };
 
   const onDate = (date) => {
@@ -45,6 +66,28 @@ const Activity = () => {
 
   };
 
+  useEffect(() => {
+    if (!date) setBatch("0")
+  }, [date])
+
+  const onBatch = (value) => {
+    if (date) {
+
+      setBatch(value)
+    } else {
+      showNotification({
+        id: "load-data",
+        loading: false,
+        color: 'red',
+        icon: <DangerousIcon />,
+        title: "Oops!",
+        message: "Please select date ",
+        autoClose: true,
+        disallowClose: false,
+      });
+    }
+
+  }
   const users = useSelector((state) => state.usersReducer.users);
   const totalUsers = useSelector((state) => state.usersReducer.total);
   const status = {
@@ -72,11 +115,13 @@ const Activity = () => {
             </div>
             <div className={style.batch}>
               <Select
+                value={batch}
                 label={"Choose a batch"}
                 placeholder={"choose"}
                 theme={"dark"}
+
                 data={["1", "2", "3", "4", "5", "6"]}
-                onChange={(value) => setBatch(value)}
+                onChange={onBatch}
               />
             </div>
           </div>
@@ -97,7 +142,7 @@ const Activity = () => {
               <Skeleton height={8} mt={6} radius="xl" />
             </>
           )}
-          <Button loading={status.attendance==="pending"} onClick={onSubmit}>Update</Button>
+          <Button loading={status.attendance === "pending"} onClick={onSubmit}>Update</Button>
 
           <Pagination
             total={totalUsers}

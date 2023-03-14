@@ -10,5 +10,6 @@ export const usersApis = {
       return axios.get(`users?limit=${limit}&page=${page}`);
     }
   },
+  
   updateAttendance: (data) => axios.put("users/attendance", data ),
 };
