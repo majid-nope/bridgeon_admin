@@ -1,6 +1,6 @@
 import React from 'react'
 import { MantineProvider, Select as Selector } from '@mantine/core';
-const Select = ({ placeholder, label, data, theme, defaultValue, size, onChange }) => {
+const Select = ({ placeholder, label, data, theme, defaultValue, size, onChange, value }) => {
     return (
         <MantineProvider theme={{ colorScheme: theme }} withGlobalStyles withNormalizeCSS>
             <Selector
@@ -10,6 +10,7 @@ const Select = ({ placeholder, label, data, theme, defaultValue, size, onChange 
                 label={label}
                 placeholder={placeholder}
                 data={data}
+                value={value}
             />
 
         </MantineProvider>

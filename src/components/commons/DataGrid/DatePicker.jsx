@@ -5,7 +5,7 @@ import { DatePicker } from '@mantine/dates';
 
 const DatePick = ({ onChange, date }) => {
     return (
-        <MantineProvider theme={{ colorScheme: 'dark' }} withGlobalStyles withNormalizeCSS>
+        <MantineProvider theme={{ colorScheme: "dark" }} withGlobalStyles withNormalizeCSS>
             <DatePicker
                 clearable
                 color='white'
