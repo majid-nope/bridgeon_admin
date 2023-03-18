@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { showNotification, updateNotification } from "@mantine/notifications";
-import { getUsers, attendance } from "../async/userAsync";
+import { getUsers, attendance, batch } from "../async/userAsync";
 import CheckIcon from "@mui/icons-material/CheckCircle";
 // import { Icon123 } from "@tabler/icons";
 
@@ -46,6 +46,11 @@ const usersSlice = createSlice({
             });
             state.status.attendance = "fulfilled";
         });
+
+        builder.addCase(batch.fulfilled, (state, action) => {
+            console.log(action.payload);
+            state.batch = action.payload
+        })
     },
 });
 

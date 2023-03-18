@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   getUsers,
   attendance as attendanceAction,
+  batch as getBatch,
 } from "../../../../../redux/async/userAsync";
 import { showNotification } from "@mantine/notifications";
 import { clear } from "../../../../../redux/slices/usersSlice";
@@ -16,7 +17,7 @@ import { clear } from "../../../../../redux/slices/usersSlice";
 const Activity = () => {
 
   const dispatch = useDispatch();
-  const [batch, setBatch] = useState("1");
+  const [batch, setBatch] = useState("0");
   const [attendance, setAttendance] = useState([]);
   const [date, setDate] = useState(null);
 
@@ -48,6 +49,7 @@ const Activity = () => {
 
 
   useEffect(() => {
+    dispatch(getBatch())
     if (batch !== "0") dispatch(getUsers({ page: 0, limit: 5, batch }));
     else dispatch(clear())
 
@@ -57,7 +59,7 @@ const Activity = () => {
     // console.log(attendance);
 
 
-    // dispatch(attendanceAction(attendance));
+    dispatch(attendanceAction(attendance));
   };
 
   const onDate = (date) => {
@@ -89,12 +91,13 @@ const Activity = () => {
 
   }
   const users = useSelector((state) => state.usersReducer.users);
-  const totalUsers = useSelector((state) => state.usersReducer.total+1);
+  const totalUsers = useSelector((state) => state.usersReducer.total + 1);
+  const batches = useSelector(state => state.usersReducer.batch)
   const status = {
     user: useSelector((state) => state.usersReducer.status.user),
     attendance: useSelector((state) => state.usersReducer.status.attendance)
   }
-  console.log(users);
+  console.log(status.batches);
 
   const columns = ["name", "batch", "course", "status"];
   let rows = useMemo(() => {
@@ -120,7 +123,7 @@ const Activity = () => {
                 placeholder={"choose"}
                 theme={"dark"}
 
-                data={["1", "2", "3", "4", "5", "6"]}
+                data={batches.map(el => el._id).sort()}
                 onChange={onBatch}
               />
             </div>
@@ -145,7 +148,7 @@ const Activity = () => {
           <Button loading={status.attendance === "pending"} onClick={onSubmit}>Update</Button>
 
           <Pagination
-            total={totalUsers>6?totalUsers:0}
+            total={totalUsers === 1 ? 0 : totalUsers}
             onChange={(i) =>
               dispatch(getUsers({ page: i - 1, limit: 5, batch }))
             }

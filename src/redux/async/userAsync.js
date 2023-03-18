@@ -24,3 +24,12 @@ export const attendance = createAsyncThunk(
     }
   }
 );
+export const batch = createAsyncThunk("users/batch", async () => {
+  try {
+    const response = await usersApis.getBatch()
+    return response.data
+
+  } catch (err) {
+    console.log(err);
+  }
+})
