@@ -6,7 +6,7 @@ import CheckIcon from "@mui/icons-material/CheckCircle";
 
 const usersSlice = createSlice({
     name: "users",
-    initialState: { users: [], total: 0, status: { user: "", attendance: "" } },
+    initialState: { users: [], total: 0, status: { user: "", attendance: "" }, batch: [] },
     reducers: {
         clear(state) {
             state.users = []
@@ -48,7 +48,7 @@ const usersSlice = createSlice({
         });
 
         builder.addCase(batch.fulfilled, (state, action) => {
-            console.log(action.payload);
+
             state.batch = action.payload
         })
     },

@@ -123,7 +123,7 @@ const Activity = () => {
                 placeholder={"choose"}
                 theme={"dark"}
 
-                data={batches.map(el => el._id).sort()}
+                data={batches?.map(el => el._id).sort()}
                 onChange={onBatch}
               />
             </div>
